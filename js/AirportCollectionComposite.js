@@ -1,35 +1,48 @@
-var AirportCollectionComposite = function () {
+var AirportTypeCollection = function () {
+	this._types = {};
 	this._airports = [];
 }
 
-AirportCollectionComposite.prototype.addCollection = function (args) {
-	this._airports.push(airportCollection);
+AirportTypeCollection.prototype.addType = function (args) {
+	this._types[args.type] = this._airports.length;
+	this._airports.push(args.collection);
 };
 
-AirportCollectionComposite.prototype.addEventListener = function (name, func) {
+AirportTypeCollection.prototype.getTypes = function () {
+	return this._types;
+};
+
+AirportTypeCollection.prototype.getType = function (args) {
+	return this._airports[this._types[args.type]];
+}
+
+AirportTypeCollection.prototype.addEventListener = function (name, func) {
 	this._airports.forEach(function (entry) {
 		entry.addEventListener(name, func);
 	});
 };
 
-AirportCollectionComposite.prototype.dispatchEvent = function (event) {
+AirportTypeCollection.prototype.dispatchEvent = function (event) {
 	this._airports.forEach(function (entry) {
 		entry.dispatchEvent(event);
 	});
 };
 
-AirportCollectionComposite.prototype.show = function () {
+AirportTypeCollection.prototype.show = function () {
 	this._airports.forEach(function (entry) {
 		entry.show();
 	});
-}
+};
 
-AirportCollectionComposite.prototype.hide = function () {
+AirportTypeCollection.prototype.hide = function () {
 	this._airports.forEach(function (entry) {
 		entry.hide();
 	});
-}
+};
 
-AirportCollection.prototype.addAirport = function (airport) {
+AirportTypeCollection.prototype.addAirport = function (args) {
+	var collection = this.getType(args);
+	if (!collection) throw "No type added for :"+args.type;
 	
-}
+	collection._addAirport(args.airport);
+};

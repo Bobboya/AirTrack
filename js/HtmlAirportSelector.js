@@ -2,7 +2,7 @@ var HtmlAirportSelector = function (args) {
 	if (!args.dom) throw "You need to give a string representing a dom element";
 	if (!args.factory) throw "No factory to retrive types from";
 	
-	this._factory = args.factory;
+	this._collections = args.factory.getAirportCollection();
 	this._dom = args.dom;
 	var self = this;
 	
@@ -11,19 +11,21 @@ var HtmlAirportSelector = function (args) {
 
 		var type = button.data('type');
 		console.log(type);
-		if (!button.hasClass('active')) self._factory.getTypes()[type].show();
-		else self._factory.getTypes()[type].hide();
+		console.log(self._collections.getType({type: type}));
+		if (!button.hasClass('active')) self._collections.getType({type: type}).show();
+		else self._collection.getType({type: type}).hide();
 	});
 };
 
 HtmlAirportSelector.prototype.refresh = function () {
 	var dom = $(this._dom);
 	dom.html("");
-	
-	var types = this._factory.getTypes()
+
+	var types = this._collections.getTypes();
 	for (var type in types) {
 		if (types.hasOwnProperty(type)){
-			dom.append("<button class='btn btn-default btn-block' data-toggle='button' data-type='"+type+"'><img src='"+types[type].imageSrc+"'/> "+types[type].name+"</button>");
+			var collection = this._collections.getType({type: type});
+			dom.append("<button class='btn btn-default btn-block' data-toggle='button' data-type='"+type+"'><img src='"+collection.imageSrc+"'/> "+collection.name+"</button>");
 		}
 	}
 };

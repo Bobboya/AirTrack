@@ -8,29 +8,31 @@ var AirportFactory = function (args) {
 	
 	this._scene = args.scene;
 	this._ellipsoid = args.ellipsoid;
-	this._airports = {};
-	this._airports = new AirportCollectionComposite();
+	this._airports = new AirportTypeCollection();
 };
 
 AirportFactory.prototype.createAirportCollection = function (args) {
 	if (!args.type) throw "Please specify a type to add it to the factory";
 	if (!args.imageSrc) throw "Please specify an image to use for the new type";
 	
-	this._airports[args.type] = new AirportCollection({
+	var collection = new AirportCollection({
 		scene: this._scene,
 		imageSrc: args.imageSrc,
 		name: args.name
 	});
-	return this._airports[args.type];
+	
+	this._airports.addType({
+		type: args.type,
+		collection: collection
+	})
+	
+	return collection;
 };
 
 AirportFactory.prototype.create = function (airportDef) {
 	if (!airportDef.type) throw "No type defined for the airport";
 	if (!airportDef.longitude_deg) throw "No longitude specified";
 	if (!airportDef.latitude_deg) throw "No latitude specified";
-	
-	var airports = this._airports[airportDef.type];
-	if (!airports) throw "No type added for :"+airportDef.type;
 	
 	var billboard = {
 		position: this._ellipsoid.cartographicToCartesian(Cesium.Cartographic.fromDegrees(airportDef.longitude_deg, airportDef.latitude_deg)),
@@ -42,9 +44,14 @@ AirportFactory.prototype.create = function (airportDef) {
 		meta: airportDef
 	});
 	
-	airports._addAirport(airport);
+	this._airports.addAirport({
+		type: airportDef.type,
+		airport: airport
+	});
+	
+	return airport;
 };
 
-AirportFactory.prototype.getTypes = function () {
+AirportFactory.prototype.getAirportCollection = function () {
 	return this._airports;
 }
