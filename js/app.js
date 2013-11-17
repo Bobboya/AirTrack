@@ -221,6 +221,7 @@ var Airports = function (attr) {
 	this.billboards.setTextureAtlas(this.textureAtlas);
 
 	airportsData.features.forEach(function (entry) {
+		if (!entry.properties.alternaten) return;
 		var billboard = {
 			position: ellipsoid.cartographicToCartesian(Cesium.Cartographic.fromDegrees(entry.geometry.coordinates[0], entry.geometry.coordinates[1])),
 			color: self.defaultColor,
