@@ -1,12 +1,11 @@
-
-var GeographicPath = function (data) {
-	this.scene = data.scene;
-	this.ellipsoid = data.ellipsoid;
+var GeographicPath = function (args) {
+	this.scene = args.scene;
+	this.ellipsoid = args.ellipsoid;
 	this.primitives = this.scene.getPrimitives();
 	
 	this.pathDistance = 0;
 	this.cartoPoints = [];
-	this.wayPoints = [];
+	this._wayPoints = [];
 	
 	this.polylines = new Cesium.PolylineCollection();
 	this.polyline = this.polylines.add();
@@ -19,20 +18,24 @@ var GeographicPath = function (data) {
 };
 
 GeographicPath.prototype.addWayPoint = function (point) {
-	if (this.wayPoints[this.wayPoints.length-1] == point) return;
-	this.wayPoints.push(point);
+	if (this._wayPoints[this._wayPoints.length-1] == point) return;
+	this._wayPoints.push(point);
 	this.display();
 };
 
 GeographicPath.prototype.removeWayPoint = function (index) {
-	this.wayPoints[index].deselect();
-	this.wayPoints.remove(index);
+	this._wayPoints[index].deselect();
+	this._wayPoints.remove(index);
 	this.display();
-}
+};
 
 GeographicPath.prototype.clearWayPoints = function () {
-	this.wayPoints = [];
+	this._wayPoints = [];
 	this.display();
+};
+
+GeographicPath.prototype.wayPoints = function () {
+	return this._wayPoints;
 }
 
 GeographicPath.prototype.display = function () {
@@ -47,22 +50,11 @@ GeographicPath.prototype.clear = function () {
 	this.polyline.setPositions(this.cartoPoints);
 };
 
-GeographicPath.prototype.printInDiv = function (div) {
-	div.html("");
-	div.append("<div><p><strong>Distance:</strong> "+this.pathDistance.toFixed(2)+" km</p></div>");
-	div.append("<div><p><strong>Aiports list:</strong></p></div>");
-	var list = $(document.createElement("ol"));
-	this.wayPoints.forEach(function (entry, index) {
-		list.append("<li><button class='btn btn-xs btn-danger deleteWayPoint' data-index='"+index+"'><span class='glyphicon glyphicon-remove-circle'></span></button> "+entry.getName()+"</li>");
-	});
-	div.append(list);
-}
-
 GeographicPath.prototype.buildPath = function () {
 	this.clear();
 	var self = this;
 	var dist = 50;
-	var pathPoints = this.wayPoints;
+	var pathPoints = this._wayPoints;
 	
 	var addCartoPoint = function addCartoPoint (point, height) {
 		var h = (height === undefined ? 9000 : height);

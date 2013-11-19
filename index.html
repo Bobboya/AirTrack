@@ -5,6 +5,7 @@
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="lib/Cesium/Widgets/CesiumWidget/CesiumWidget.css">
 		<link rel="stylesheet" href="lib/bootstrap/bootstrap.min.css">
+		<link rel="stylesheet" href="lib/bootstrap/bootstrap-theme.min.css">
 		<link rel="stylesheet" href="css/app.css">
 		<style>
 		</style>
@@ -13,19 +14,19 @@
 	<div id="airportType">
 		<h2 class="title">Airport type</h2>
 		<hr/>
-		<div id="airportTypeSelector">
-			
-		</div>
+		<div id="airportTypeSelector"></div>
 	</div>
-	<div id="info">
+	
+	<div id="geographicPathInfoFrame">
 		<h2 class="title">Path description</h2>
 		<hr/>
-		<div class="path"></div>
+		<div id="geographicPathInfo"></div>
 	</div>
-	<div id="airportDetail">
+	
+	<div id="airportInfoFrame">
 		<h2 class="title">Airport info</h2>
 		<hr/>
-		<div class="info"></div>
+		<div id="airportInfo"></div>
 	</div>
 	<div id="cesiumContainer"></div>
 	<script src="lib/jquery/jquery.min.js"></script>
@@ -36,10 +37,11 @@
 	
 	<script src="js/openAirports.js"></script>
 	<script src="js/Airport.js"></script>
-	<script src="js/AirportCollection.js"></script>
-	<script src="js/AirportCollectionComposite.js"></script>
+	<script src="js/AirportTypeCollection.js"></script>
 	<script src="js/AirportFactory.js"></script>
 	<script src="js/HtmlAirportSelector.js"></script>
+	<script src="js/GeographicPath.js"></script>
+	<script src="js/GeographicPathHtmlFormatter.js"></script>
 	<script src="js/main.js"></script>
 	
 	<script>
