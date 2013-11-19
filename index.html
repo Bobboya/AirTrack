@@ -5,20 +5,28 @@
 		<meta charset="utf-8">
 		<link rel="stylesheet" href="lib/Cesium/Widgets/CesiumWidget/CesiumWidget.css">
 		<link rel="stylesheet" href="lib/bootstrap/bootstrap.min.css">
+		<link rel="stylesheet" href="lib/bootstrap/bootstrap-theme.min.css">
 		<link rel="stylesheet" href="css/app.css">
 		<style>
 		</style>
 	</head>
 <body>
-	<div id="info">
+	<div id="airportType">
+		<h2 class="title">Airport type</h2>
+		<hr/>
+		<div id="airportTypeSelector"></div>
+	</div>
+	
+	<div id="geographicPathInfoFrame">
 		<h2 class="title">Path description</h2>
 		<hr/>
-		<div class="path"></div>
+		<div id="geographicPathInfo"></div>
 	</div>
-	<div id="airportDetail">
+	
+	<div id="airportInfoFrame">
 		<h2 class="title">Airport info</h2>
 		<hr/>
-		<div class="info"></div>
+		<div id="airportInfo"></div>
 	</div>
 	<div id="cesiumContainer"></div>
 	<script src="lib/jquery/jquery.min.js"></script>
@@ -26,42 +34,19 @@
 	<script src="lib/geographic/geo.js"></script>
 	<script src="lib/geographic/latlon.js"></script>
 	<script src="lib/Cesium/Cesium.js"></script>
-	<script src="js/airports.js"></script>
-	<script src="js/app.js"></script>
+	
+	<script src="js/openAirports.js"></script>
+	<script src="js/Airport.js"></script>
+	<script src="js/AirportTypeCollection.js"></script>
+	<script src="js/AirportFactory.js"></script>
+	<script src="js/HtmlAirportSelector.js"></script>
+	<script src="js/GeographicPath.js"></script>
+	<script src="js/GeographicPathHtmlFormatter.js"></script>
+	<script src="js/main.js"></script>
 	
 	<script>
 		$(document).ready(function () {
-			var widget = new Cesium.CesiumWidget('cesiumContainer', {
-				imageryProvider: new Cesium.OpenStreetMapImageryProvider({
-					url : 'http://tile.openstreetmap.org/'
-				})
-			});
-			var airports = new Airports({
-				scene: widget.scene,
-				ellipsoid: widget.centralBody.getEllipsoid(),
-				airportsData: airportsData,
-			});
-			var gpath = new GeographicPath({
-				scene: widget.scene,
-				ellipsoid: widget.centralBody.getEllipsoid(),
-				dist: 50
-			});
-			airports.addEventListener('click', function (event) {
-				if (event.detail.point === undefined) return;
-				gpath.addWayPoint(event.detail.point);
-				gpath.printInDiv($("#info .path"));
-			}, false);
-			airports.addEventListener('hover', function (event) {
-				if (event.detail.point === undefined) return;
-				event.detail.point.printInDiv($("#airportDetail .info"));
-			}, false);
-			$("#info").on("click", ".deleteWayPoint", function () {
-				gpath.removeWayPoint($(this).data('index'));
-				gpath.printInDiv($("#info .path"));
-			});
-			
-			var tweet = new Twitter();
-			tweet.connect();
+			main();
 		});
 	</script>
 </body>

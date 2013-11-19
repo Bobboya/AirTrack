@@ -1,12 +1,19 @@
+hr {
+	margin-top:5px;
+	margin-bottom:5px;
+}
+
 .title {
 	font-size:14px;
 	font-weight:bold;
 	text-align:center;
+	margin-top:5px;
+	margin-bottom:5px;
 }
 
-#info {
+#geographicPathInfoFrame {
 	position: absolute;
-	top:5%;
+	top:50%;
 	left:20px;
 	z-index:999;
 	width:20%;
@@ -16,12 +23,11 @@
 	overflow-y:auto;
 	box-shadow: 0 0 10px #555 inset;
 	border:1px solid #777;
-	
 }
 
-#airportDetail {
+#airportInfoFrame {
 	position: absolute;
-	top:5%;
+	top:10px;
 	right:20px;
 	z-index:999;
 	width:20%;
@@ -29,6 +35,24 @@
 	background-color:rgba(255,255,255,0.9);
 	box-shadow: 0 0 10px #555 inset;
 	border:1px solid #777;	
+	overflow: hidden;
+}
+
+#airportType {
+	position: absolute;
+	top:10px;
+	left:20px;
+	z-index:999;
+	width:20%;
+	padding:10px;
+	background-color:rgba(255,255,255,0.9);
+	box-shadow: 0 0 10px #555 inset;
+	border:1px solid #777;	
+}
+
+#airportType button {
+	text-align:left;
+	padding-left:10px;
 }
 
 #cesiumContainer {

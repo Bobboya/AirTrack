@@ -221,6 +221,7 @@ var Airports = function (attr) {
 	this.billboards.setTextureAtlas(this.textureAtlas);
 
 	airportsData.features.forEach(function (entry) {
+		if (!entry.properties.alternaten) return;
 		var billboard = {
 			position: ellipsoid.cartographicToCartesian(Cesium.Cartographic.fromDegrees(entry.geometry.coordinates[0], entry.geometry.coordinates[1])),
 			color: self.defaultColor,
@@ -246,13 +247,6 @@ Airports.prototype.dispatchEvent = function (event) {
 	});
 };
 /* ---------------------------------------------------------------------------------- */
-
-// Array Remove - By John Resig (MIT Licensed)
-Array.prototype.remove = function(from, to) {
-	var rest = this.slice((to || from) + 1 || this.length);
-	this.length = from < 0 ? this.length + from : from;
-	return this.push.apply(this, rest);
-};
 
 var Twitter = function () {};
 
