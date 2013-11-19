@@ -62,6 +62,10 @@ function main () {
 			});
 			airportSelector.refresh();
 			
+			var cZoomer = new CameraZoomer({
+				scene: widget.scene
+			});
+
 			var gPath = new GeographicPath ({
 				scene: widget.scene,
 				ellipsoid: widget.centralBody.getEllipsoid(),
@@ -69,7 +73,8 @@ function main () {
 
 			var gPathFormatter = new GeographicPathHtmlFormatter({
 				dom: "#geographicPathInfo",
-				gPath: gPath
+				gPath: gPath,
+				cameraZoomer: cZoomer
 			});
 			
 			collection.addEventListener('hover', function (event) {

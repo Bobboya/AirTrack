@@ -34,6 +34,10 @@ GeographicPath.prototype.clearWayPoints = function () {
 	this.display();
 };
 
+GeographicPath.prototype.getWayPoint = function (i) {
+	return this._wayPoints[i];
+};
+
 GeographicPath.prototype.wayPoints = function () {
 	return this._wayPoints;
 }
