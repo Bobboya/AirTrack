@@ -56,6 +56,22 @@ function main () {
 			});
 			delete airports;
 			
+			routes.forEach(function (entry, index) {
+				var source = collection.getAirportByIata({
+					iata: entry['SourceAirport']
+				});
+				var dest = collection.getAirportByIata({
+					iata: entry['DestinationAirport']
+				});
+				if (!source || !dest) {
+					return;
+				}
+				source.addDestination({
+					iata: entry['DestinationAirport']
+				});
+			});
+			delete routes;
+			
 			var airportSelector = new HtmlAirportSelector({
 				collection: collection,
 				dom: "#airportTypeSelector"
@@ -77,6 +93,11 @@ function main () {
 				cameraZoomer: cZoomer
 			});
 			
+			var destLines = new GeographicDestinationLines({
+				scene: widget.scene,
+				ellipsoid: widget.centralBody.getEllipsoid(),
+			});
+			
 			collection.addEventListener('hover', function (event) {
 				var infoDiv = $("#airportInfo");
 				infoDiv.html("");
@@ -94,6 +115,19 @@ function main () {
 			collection.addEventListener('click', function (event) {
 				var airport = event.detail.airport;
 				gPath.addWayPoint(airport);
+			});
+			
+			collection.addEventListener('click', function (event) {
+				var airport = event.detail.airport;
+				destLines.setStart(airport);
+				var dests = airport.getDestinations();
+				dests.forEach(function (entry) {
+					var dest = collection.getAirportByIata({
+						iata: entry
+					});
+					destLines.addDestination(dest);
+				});
+				destLines.display();
 			});
 
 			collection.addEventListener('click', function (event) {

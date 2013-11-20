@@ -12,7 +12,7 @@ var GeographicPath = function (args) {
 	
 	var glowMaterial = Cesium.Material.fromType(Cesium.Material.PolylineGlowType);
 	glowMaterial.uniforms.innerWidth = 3.0;
-	glowMaterial.uniforms.color = new Cesium.Color(1.0, 0.5, 0.0, 1.0);
+	glowMaterial.uniforms.color = args.color || new Cesium.Color(1.0, 0.5, 0.0, 1.0);
 	this.polyline.setMaterial(glowMaterial);
 	this.polyline.setWidth(10.0);
 };
@@ -40,7 +40,7 @@ GeographicPath.prototype.getWayPoint = function (i) {
 
 GeographicPath.prototype.wayPoints = function () {
 	return this._wayPoints;
-}
+};
 
 GeographicPath.prototype.display = function () {
 	this.buildPath();
@@ -57,7 +57,7 @@ GeographicPath.prototype.clear = function () {
 GeographicPath.prototype.buildPath = function () {
 	this.clear();
 	var self = this;
-	var dist = 50;
+	var dist = 200;
 	var pathPoints = this._wayPoints;
 	
 	var addCartoPoint = function addCartoPoint (point, height) {
