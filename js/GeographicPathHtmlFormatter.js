@@ -8,6 +8,17 @@ var GeographicPathHtmlFormatter = function (args) {
 		self._gPath.removeWayPoint(index);
 		self.refresh();
 	});
+
+	this._zoomer = args.cameraZoomer;
+	if (this._zoomer) {
+		this._dom.on("click", '.zoomTo', function () {
+			var index = $(this).data('index');
+			var airport = self._gPath.getWayPoint(index);
+			self._zoomer.zoomTo({
+				latLon: airport.latLon()
+			});
+		});
+	}
 };
 
 GeographicPathHtmlFormatter.prototype.refresh = function () {
@@ -19,7 +30,13 @@ GeographicPathHtmlFormatter.prototype.refresh = function () {
 	div.append("<div><p><strong>Aiports list:</strong></p></div>");
 	var list = $(document.createElement("ol"));
 	gPath.wayPoints().forEach(function (entry, index) {
-		list.append("<li><button class='btn btn-xs btn-danger removeWayPoint' data-index='"+index+"'><span class='glyphicon glyphicon-remove-circle'></span></button> "+entry.getName()+"</li>");
+		list.append("<li> \
+			<button class='btn btn-xs btn-danger removeWayPoint' data-index='"+index+"'> \
+				<span class='glyphicon glyphicon-remove-circle'></span> \
+			</button>\
+			<button class='btn btn-xs btn-success zoomTo' data-index='"+index+"'> \
+				<span class='glyphicon glyphicon-screenshot'></span> \
+			</button> "+entry.getName()+"</li>");
 	});
 	div.append(list);
 }

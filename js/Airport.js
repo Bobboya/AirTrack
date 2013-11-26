@@ -3,12 +3,22 @@ var Airport = function (args) {
 	this._isSelected = false;
 	this._meta = args.meta || {};
 	this._type = args.type || 'NA';
+	this._dests = [];
 };
 
 Airport.prototype = Object.create(Cesium.Billboard.prototype);
 
 Airport.prototype.latLon = function () {
 	return new LatLon(this._meta.latitude_deg, this._meta.longitude_deg);
+};
+
+Airport.prototype.addDestination = function (args) {
+	var iata = args.iata;
+	this._dests.push(iata);
+};
+
+Airport.prototype.getDestinations = function () {
+	return this._dests;
 };
 
 Airport.prototype.select = function () {
@@ -20,11 +30,11 @@ Airport.prototype.deselect = function () {
 };
 
 Airport.prototype.hover = function () {
-	this._scale = 2.0;
+	this.setScale(1.4);
 };
 
 Airport.prototype.unhover = function () {
-	this._scale = 1.0;
+	this.setScale(1.0);
 };
 
 Airport.prototype.type = function () {

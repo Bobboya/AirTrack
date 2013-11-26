@@ -4,11 +4,11 @@ var AirportTypeCollection = function (args) {
 	var self = this;
 	this._scene = args.scene;
 	this._listeners = [];
-	this._primitive = undefined;
 	this._types = {};
 	this._typesNumber = 0;
 	this._typesLoaded = 0;
 	this._hiddenTypes = {};
+	this._iata = {};
 	this._textureAtlas = self._scene.getContext().createTextureAtlas();
 	this.setTextureAtlas(this._textureAtlas);
 	
@@ -118,8 +118,14 @@ AirportTypeCollection.prototype.addAirport = function (airport) {
 	airport._index = this._billboards.length;
 	airport._billboardCollection = this;
 	airport._imageIndex = this._noImage;
+	this._iata[airport.meta().iata_code.toLowerCase()] = airport._index;
     this._billboards.push(airport);
     this._createVertexArray = true;
+};
+
+AirportTypeCollection.prototype.getAirportByIata = function (args) {
+	var iata = args.iata.toLowerCase();
+	return this._billboards[this._iata[iata]];
 };
 
 AirportTypeCollection.prototype._finalize = function () {
