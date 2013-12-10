@@ -107,7 +107,11 @@ function main () {
 				var airport = event.detail.airport;
 				for (key in airport.meta()) {
 					if (airport.meta().hasOwnProperty(key)) {
-						list.append("<li>"+key+": "+airport.meta()[key]+"</li>");
+						if(key == "wikipedia_link") {
+							list.append("<li>"+key+": <a href=\""+airport.meta()[key]+"\">"+airport.meta()[key]+"</a></li>");
+						} else {
+							list.append("<li>"+key+": "+airport.meta()[key]+"</li>");
+						}
 					};
 				}
 			});
