@@ -56,12 +56,32 @@ function main () {
 			});
 			delete airports;
 			
+			routes.forEach(function (entry, index) {
+				var source = collection.getAirportByIata({
+					iata: entry['SourceAirport']
+				});
+				var dest = collection.getAirportByIata({
+					iata: entry['DestinationAirport']
+				});
+				if (!source || !dest) {
+					return;
+				}
+				source.addDestination({
+					iata: entry['DestinationAirport']
+				});
+			});
+			delete routes;
+			
 			var airportSelector = new HtmlAirportSelector({
 				collection: collection,
 				dom: "#airportTypeSelector"
 			});
 			airportSelector.refresh();
 			
+			var cZoomer = new CameraZoomer({
+				scene: widget.scene
+			});
+
 			var gPath = new GeographicPath ({
 				scene: widget.scene,
 				ellipsoid: widget.centralBody.getEllipsoid(),
@@ -69,7 +89,13 @@ function main () {
 
 			var gPathFormatter = new GeographicPathHtmlFormatter({
 				dom: "#geographicPathInfo",
-				gPath: gPath
+				gPath: gPath,
+				cameraZoomer: cZoomer
+			});
+			
+			var destLines = new GeographicDestinationLines({
+				scene: widget.scene,
+				ellipsoid: widget.centralBody.getEllipsoid(),
 			});
 			
 			collection.addEventListener('hover', function (event) {
@@ -81,7 +107,11 @@ function main () {
 				var airport = event.detail.airport;
 				for (key in airport.meta()) {
 					if (airport.meta().hasOwnProperty(key)) {
-						list.append("<li>"+key+": "+airport.meta()[key]+"</li>");
+						if(key == "wikipedia_link") {
+							list.append("<li>"+key+": <a href=\""+airport.meta()[key]+"\">"+airport.meta()[key]+"</a></li>");
+						} else {
+							list.append("<li>"+key+": "+airport.meta()[key]+"</li>");
+						}
 					};
 				}
 			});
@@ -89,6 +119,19 @@ function main () {
 			collection.addEventListener('click', function (event) {
 				var airport = event.detail.airport;
 				gPath.addWayPoint(airport);
+			});
+			
+			collection.addEventListener('click', function (event) {
+				var airport = event.detail.airport;
+				destLines.setStart(airport);
+				var dests = airport.getDestinations();
+				dests.forEach(function (entry) {
+					var dest = collection.getAirportByIata({
+						iata: entry
+					});
+					destLines.addDestination(dest);
+				});
+				destLines.display();
 			});
 
 			collection.addEventListener('click', function (event) {
