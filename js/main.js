@@ -1,4 +1,3 @@
-
 // Array Remove - By John Resig (MIT Licensed)
 Array.prototype.remove = function(from, to) {
 	var rest = this.slice((to || from) + 1 || this.length);
@@ -12,8 +11,6 @@ function main () {
 	var factory = new AirportFactory ({
 		ellipsoid: widget.centralBody.getEllipsoid(),
 	});
-	
-	/*var gPath = new GeographicPath ();*/
 	
 	var collection = new AirportTypeCollection({
 		scene: widget.scene,
@@ -87,10 +84,14 @@ function main () {
 				ellipsoid: widget.centralBody.getEllipsoid(),
 			});
 
+			var twitter = new Twitter({
+				dom: "#tweets"
+			});
 			var gPathFormatter = new GeographicPathHtmlFormatter({
 				dom: "#geographicPathInfo",
 				gPath: gPath,
-				cameraZoomer: cZoomer
+				cameraZoomer: cZoomer,
+				twitter: twitter
 			});
 			
 			var destLines = new GeographicDestinationLines({
@@ -137,6 +138,9 @@ function main () {
 			collection.addEventListener('click', function (event) {
 				gPathFormatter.refresh();
 			});
+			
+			
+			twitter.connect();
 		},
 	});
 };
