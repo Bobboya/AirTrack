@@ -92,8 +92,6 @@ GeographicPath.prototype.buildPath = function () {
 	var current = pathPoints[0];
 	pathPoints.forEach(function (entry) {
 		if (current === entry) return;
-		if (!current.latLon()) console.log(current);
-		if (!entry.latLon()) console.log(entry);
 		buildLine(current.latLon(), entry.latLon());
 		current = entry;
 	});
