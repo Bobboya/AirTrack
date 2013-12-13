@@ -3,6 +3,11 @@ hr {
 	margin-bottom:5px;
 }
 
+body {
+	font-size: 13px;
+	overflow-y: hidden;
+}
+
 .title {
 	font-size:14px;
 	font-weight:bold;
@@ -20,8 +25,8 @@ hr {
 	padding:10px;
 	background-color:rgba(255,255,255,0.9);
 	box-shadow: 0 0 10px #555 inset;
-	max-height: 55%;
-	overflow-y:scroll;
+	bottom: 25px;
+	overflow-y:auto;
 }
 
 .airportInfoFrame {
@@ -30,11 +35,12 @@ hr {
 	right:20px;
 	z-index:999;
 	width:20%;
+	height: 310px;
 	padding:10px;
 	background-color:rgba(255,255,255,0.9);
 	box-shadow: 0 0 10px #555 inset;	
-	border:1px solid #777;	
 	overflow: hidden;
+	overflow-x:none;
 }
 
 .airportType {
@@ -55,10 +61,14 @@ hr {
 	z-index:999;
 	width:20%;
 	padding:10px;
-	max-height: 60%;
-	overflow-y: scroll	;
+	bottom:5px;
+	overflow-y: auto;
 	background-color:rgba(255,255,255,0.9);
 	box-shadow: 0 0 10px #555 inset;
+}
+
+.twitterImg {
+	margin-top:-5px;
 }
 
 .airportType button {
