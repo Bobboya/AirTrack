@@ -105,15 +105,73 @@ function main () {
 				infoDiv.append("<ul>");
 				var list = infoDiv.children("ul");
 				
+				/*
+				iata_code -> Code AITA
+				name -> Nom
+				municipality -> Ville
+				longitude_deg -> Longitude
+				latitude_deg -> Latitude
+				elevation_ft -> Altitude (m)
+				home_link -> Site Web
+				wikipedia_link -> Wikipedia
+				*/
+
 				var airport = event.detail.airport;
-				for (key in airport.meta()) {
-					if (airport.meta().hasOwnProperty(key)) {
-						if(key == "wikipedia_link") {
-							list.append("<li>"+key+": <a href=\""+airport.meta()[key]+"\">"+airport.meta()[key]+"</a></li>");
-						} else {
-							list.append("<li>"+key+": "+airport.meta()[key]+"</li>");
-						}
-					};
+
+				if(airport.meta().hasOwnProperty('iata_code')) {
+					iata_code = airport.meta()['iata_code'];
+					if(iata_code != "") {
+						list.append("<li><strong>Code AITA: </strong>" + iata_code + "</li>");
+					}
+				}
+
+				if(airport.meta().hasOwnProperty('name')) {
+					name = airport.meta()['name'];
+					if(name != "") {
+						list.append("<li><strong>Nom: </strong>" + name + "</li>");
+					}
+				}
+				
+				if(airport.meta().hasOwnProperty('municipality')) {
+					municipality = airport.meta()['municipality'];
+					if(municipality != "") {
+						list.append("<li><strong>Ville: </strong>" + municipality + "</li>");
+					}
+				}
+
+				if(airport.meta().hasOwnProperty('longitude_deg')) {
+					longitude_deg = airport.meta()['longitude_deg'];
+					if(longitude_deg != "") {
+						list.append("<li><strong>Longitude: </strong>" + Math.round(longitude_deg*1000)/1000 + "</li>");
+					}
+				}
+
+				if(airport.meta().hasOwnProperty('latitude_deg')) {
+					latitude_deg = airport.meta()['latitude_deg'];
+					if(latitude_deg != "") {
+						list.append("<li><strong>Latitude: </strong>" + Math.round(latitude_deg*1000)/1000 + "</li>");
+					}
+				}
+
+				if(airport.meta().hasOwnProperty('elevation_ft')) {
+					elevation_ft = airport.meta()['elevation_ft'];
+					if(elevation_ft != "") {
+						list.append("<li><strong>Altitude (m): </strong>" + (elevation_ft*0.3048).toFixed(0) + "</li>");
+					}
+				}
+
+				if(airport.meta().hasOwnProperty('home_link')) {
+					home_link = airport.meta()['home_link'];
+					if(home_link != "") {
+						list.append("<li><strong>Site web: </strong><a href=\"" + home_link + "\">" + home_link + "</a></li>");
+					}
+				}
+
+				if(airport.meta().hasOwnProperty('wikipedia_link')) {
+					wikipedia_link = airport.meta()['wikipedia_link'];
+					if(wikipedia_link != "") {
+						list.append("<li><strong>Wikipedia: </strong><a href=\"" + wikipedia_link + "\">" + wikipedia_link + "</a></li>");
+					}
 				}
 			});
 			
