@@ -48,7 +48,7 @@ GeographicPathHtmlFormatter.prototype.refresh = function () {
 				<span class='glyphicon glyphicon-screenshot'></span> \
 			</button> \
 			<button class='btn btn-xs btn-info twitterRequest' data-index='"+index+"'> \
-				<span class='glyphicon glyphicon-remove-circle'></span> \
+				<img class='twitterImg' src='images/twitter.png'> \
 			</button>\			"+entry.getName()+"</li>");
 	});
 	div.append(list);
