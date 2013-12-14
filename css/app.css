@@ -43,6 +43,14 @@ body {
 	overflow-x:none;
 }
 
+li {
+	margin-left: -25px;
+}
+
+.geographicPathInfoFrame li {
+	margin-top: 4px;
+}
+
 .airportType {
 	position: absolute;
 	top:10px;
