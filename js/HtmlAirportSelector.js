@@ -1,3 +1,4 @@
+//Html selector of the different airport types available
 var HtmlAirportSelector = function (args) {
 	if (!args.dom) throw "You need to give a string representing a dom element";
 	if (!args.collection) throw "No collection to retrieve types from";

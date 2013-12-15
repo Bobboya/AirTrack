@@ -47,6 +47,7 @@ function main () {
 			},
 		],
 		lastCallback: function (collection) {
+			//Creating airport and routes
 			airports.forEach(function (entry) {
 				var airport = factory.create(entry);
 				collection.addAirport(airport);
@@ -69,36 +70,45 @@ function main () {
 			});
 			delete routes;
 			
+			//Html output of the different airport types
 			var airportSelector = new HtmlAirportSelector({
 				collection: collection,
 				dom: "#airportTypeSelector"
 			});
 			airportSelector.refresh();
 			
+			//Object allowing zooming to a specific airport
 			var cZoomer = new CameraZoomer({
 				scene: widget.scene
 			});
-
+			
+			//Geographic path to add the airports in
 			var gPath = new GeographicPath ({
 				scene: widget.scene,
 				ellipsoid: widget.centralBody.getEllipsoid(),
 			});
-
+			
+			//Twitter request
 			var twitter = new Twitter({
 				dom: "#tweets"
 			});
+			
+			//Html output of the geographic path
 			var gPathFormatter = new GeographicPathHtmlFormatter({
 				dom: "#geographicPathInfo",
 				gPath: gPath,
 				cameraZoomer: cZoomer,
 				twitter: twitter
 			});
-			
+			//Represent the destination lines
 			var destLines = new GeographicDestinationLines({
 				scene: widget.scene,
 				ellipsoid: widget.centralBody.getEllipsoid(),
 			});
 			
+			////////////////////
+			//// LISTENERS /////
+			////////////////////
 			collection.addEventListener('hover', function (event) {
 				var infoDiv = $("#airportInfo");
 				infoDiv.html("");
@@ -115,7 +125,6 @@ function main () {
 				home_link -> Site Web
 				wikipedia_link -> Wikipedia
 				*/
-
 				var airport = event.detail.airport;
 
 				if(airport.meta().hasOwnProperty('iata_code')) {

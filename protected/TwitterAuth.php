@@ -1,15 +1,20 @@
 <?php
 
+/*
+ * This class handle twitter authentication
+ */
 class TwitterAuth {
 	
 	private $key;
 	private $secret;
 	
+	//key and secret provided by twitter
 	public function __construct ($key, $secret) {
 		$this->key = $key;
 		$this->secret = $secret;
 	}
 	
+	//Requesting key to request twitter later
 	public function connect () {
 		$url = "https://api.twitter.com/oauth2/token";
 		$hash = base64_encode($this->key.":".$this->secret);

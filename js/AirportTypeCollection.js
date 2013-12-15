@@ -1,3 +1,4 @@
+//Collection of airport identified by type
 var AirportTypeCollection = function (args) {
 	Cesium.BillboardCollection.call(this);
 	
@@ -12,6 +13,7 @@ var AirportTypeCollection = function (args) {
 	this._textureAtlas = self._scene.getContext().createTextureAtlas();
 	this.setTextureAtlas(this._textureAtlas);
 	
+	//Empty canvas to hide airports
 	var canvas = (function () {
 		var canvas = document.createElement('canvas');
 		var size = 4;
@@ -34,7 +36,7 @@ var AirportTypeCollection = function (args) {
 	this.handler = (function () {
 		var handler = new Cesium.ScreenSpaceEventHandler(self._scene.getCanvas());
 		var hoveredAirport = undefined;
-		
+		//Dispatch an event when an airport is clicked
 		handler.setInputAction(
 			function (movement) {
 				if (self._scene.pick(movement.position) === undefined) return;
@@ -45,7 +47,8 @@ var AirportTypeCollection = function (args) {
 			},
 			Cesium.ScreenSpaceEventType.LEFT_CLICK
 		);
-	
+		//Dispatch an event when an airport is hovered
+		//Handles call to airport.hover() and airport.unhover()
 		handler.setInputAction(
 			function (movement) {
 				if (hoveredAirport) {
@@ -55,6 +58,7 @@ var AirportTypeCollection = function (args) {
 				var pickedObject = self._scene.pick(movement.endPosition);
 				if (pickedObject === undefined) return;
 				var airport = pickedObject.primitive;
+				//hovered object may not be an airport
 				if (airport === undefined || !(airport instanceof Airport)) return;
 				airport.hover();
 				var event = new CustomEvent('hover', {detail: {airport: airport}});
@@ -70,6 +74,8 @@ var AirportTypeCollection = function (args) {
 
 AirportTypeCollection.prototype = Object.create(Cesium.BillboardCollection.prototype);
 
+//Add a type to the collection
+//Look if it is the last type to add and calls lastCallback if so
 AirportTypeCollection.prototype._addType = function (args) {
 	var typeIndex = args.index;
 	var types = args.types;
@@ -100,16 +106,18 @@ AirportTypeCollection.prototype._addType = function (args) {
     
 };
 
+//Add a listener
 AirportTypeCollection.prototype.addEventListener = function (name, func) {
 	this._listeners.push({name: name, func: func});
 };
-
+//Dispatch an event
 AirportTypeCollection.prototype.dispatchEvent = function (event) {
 	this._listeners.forEach(function (entry) {
 		if (entry.name === event.type) entry.func(event);
 	});
 };
 
+//Add an airport and check his type
 AirportTypeCollection.prototype.addAirport = function (airport) {
 	if (!this._types[airport.type()]) {
 		if (this.verbose) console.warn("Type "+airport.type()+" doesn't exists in this collection");
@@ -132,11 +140,13 @@ AirportTypeCollection.prototype._finalize = function () {
 	this._scene.getPrimitives().add(this);
 };
 
+//Hide airports belonging to a specific type
 AirportTypeCollection.prototype.hide = function (args) {
 	this._hiddenTypes[args.type] = true;
 	this._updateImage();
 };
 
+//Show airports belonging to a specific type
 AirportTypeCollection.prototype.show = function (args) {
 	this._hiddenTypes[args.type] = false;
 	this._updateImage();

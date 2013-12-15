@@ -1,3 +1,5 @@
+//Html output of a geographic path
+//Add event listener on airport action
 var GeographicPathHtmlFormatter = function (args) {
 	this._dom = $(args.dom);
 	this._gPath = args.gPath;

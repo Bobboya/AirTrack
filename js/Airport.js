@@ -1,3 +1,5 @@
+//An airport is a Cesium.Billboard
+//Contains a list of known airport destination
 var Airport = function (args) {
 	Cesium.Billboard.call(this, args.options, args.collection);
 	this._isSelected = false;

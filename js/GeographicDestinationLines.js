@@ -1,3 +1,5 @@
+//Polyline collection displaying destination of a LatLon point
+//It creates geographic polylines originating from a point and going to one or more destinations
 var GeographicDestinationLines = function (args) {
 	this._scene = args.scene;
 	this.ellipsoid = args.ellipsoid;
@@ -7,10 +9,13 @@ var GeographicDestinationLines = function (args) {
 	this._polylines = new Cesium.PolylineCollection();
 };
 
+//Add a LatLon destination
 GeographicDestinationLines.prototype.addDestination = function (point) {
 	this._addLine(this._start.latLon(), point.latLon());
 };
 
+//Should be private
+//Create a cesium polyline from an array of point
 GeographicDestinationLines.prototype._newPolyline = function (args) {
 	var positions = args.positions;
 	
@@ -34,11 +39,13 @@ GeographicDestinationLines.prototype._cartoPoint = function (point, height) {
 	return cartePoint;
 };
 
+//Set the origin point
 GeographicDestinationLines.prototype.setStart = function (start) {
 	this._start = start;
 	this.clear();
 }
 
+//Create a geographic line between two points
 GeographicDestinationLines.prototype._addLine = function (start, end) {
 	var dist = 200;
 	var cartoPoints = [];
@@ -63,7 +70,6 @@ GeographicDestinationLines.prototype._addLine = function (start, end) {
 };
 
 GeographicDestinationLines.prototype.clear = function () {
-	//if (this._primitive) this._scene.getPrimitives().remove(this._primitive);
 	this._polylines.removeAll();
 };
 

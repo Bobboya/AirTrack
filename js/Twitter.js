@@ -1,6 +1,7 @@
+//Javascript class to request twitter API
 var Twitter = function (args) {
 	this._dom = $(args.dom);
-	console.log(args.dom, $(args.dom));
+	
 	this._dom.on("click", '.removeWayPoint', function () {
 		var index = $(this).data('index');
 		self._gPath.removeWayPoint(index);
@@ -13,6 +14,7 @@ var Twitter = function (args) {
 	};
 };
 
+//Retrieve the token necessary to request twitter.com
 Twitter.prototype.connect = function () {
 	var self = this;
 	$.ajax({
@@ -30,6 +32,7 @@ Twitter.prototype.connect = function () {
 	});
 };
 
+//Query the tweet coming from a specific lat lon
 Twitter.prototype.request = function (args) {
 	var self = this;
 	var url = "/twitter_request.php";

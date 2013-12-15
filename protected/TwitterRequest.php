@@ -1,11 +1,15 @@
 <?php
 
+/*
+ * Handle requests to the twitter API
+ */
 class TwitterRequest {
 	
 	public function __construct ($token, $lat, $lon) {
 		$this->token = $token;
 		$this->lat = $lat;
 		$this->lon = $lon;
+		//5km radius around the airport position
 		$this->radius = "5km";
 		$this->type = "Bearer";
 		$this->url = "https://api.twitter.com/1.1/search/tweets.json";

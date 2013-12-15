@@ -1,3 +1,4 @@
+//Geographic path between airports
 var GeographicPath = function (args) {
 	this.scene = args.scene;
 	this.ellipsoid = args.ellipsoid;
@@ -17,18 +18,21 @@ var GeographicPath = function (args) {
 	this.polyline.setWidth(10.0);
 };
 
+//Add an airport to the path
 GeographicPath.prototype.addWayPoint = function (point) {
 	if (this._wayPoints[this._wayPoints.length-1] == point) return;
 	this._wayPoints.push(point);
 	this.display();
 };
 
+//Remove an airport from the path
 GeographicPath.prototype.removeWayPoint = function (index) {
 	this._wayPoints[index].deselect();
 	this._wayPoints.remove(index);
 	this.display();
 };
 
+//Clear the path
 GeographicPath.prototype.clearWayPoints = function () {
 	this._wayPoints = [];
 	this.display();
@@ -42,6 +46,7 @@ GeographicPath.prototype.wayPoints = function () {
 	return this._wayPoints;
 };
 
+//Display the path on the globe
 GeographicPath.prototype.display = function () {
 	this.buildPath();
 	this.polyline.setPositions(this.cartoPoints);
@@ -54,6 +59,7 @@ GeographicPath.prototype.clear = function () {
 	this.polyline.setPositions(this.cartoPoints);
 };
 
+//Build the geographic path
 GeographicPath.prototype.buildPath = function () {
 	this.clear();
 	var self = this;

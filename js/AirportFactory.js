@@ -1,3 +1,4 @@
+//Create airports
 var AirportFactory = function (args) {
 	if (!args.ellipsoid) {
 		throw "No ellipsoid specified";
@@ -5,6 +6,8 @@ var AirportFactory = function (args) {
 	this._ellipsoid = args.ellipsoid;
 };
 
+//Compute the airport location on the cesium globe
+//Add necessery data
 AirportFactory.prototype.create = function (airportDef) {
 	if (!airportDef.type) throw "No type defined for the airport";
 	if (!airportDef.longitude_deg) throw "No longitude specified";

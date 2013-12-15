@@ -1,3 +1,4 @@
+//Create a camera capable of zooming to a location
 var CameraZoomer = function (args) {
 	this._scene = args.scene;
 };
